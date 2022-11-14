@@ -17,8 +17,6 @@ public class Points : MonoBehaviour
     float prevX, prevY, randX, randY, temp = 0f;
     GameObject Triangle;
 
-    public ComputeShader shader;
-
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +41,6 @@ public class Points : MonoBehaviour
                 pointObjects.Add(Instantiate(prefab, new Vector3(i-N / 2, j-N / 2, 0), Quaternion.identity));
             }
         }
-        StructuredBuffer<Fluid> fluidNodesBuffer;
     }
     // Update is called once per frame
     void Update()
@@ -90,18 +87,6 @@ public class Points : MonoBehaviour
         prevX = xPos;
         prevY = yPos;
         fluid.step();
-    }
-
-    void RunShader()
-    {
-        int kernelHandle = shader.FindKernel("CSMain");
-
-        RenderTexture tex = new RenderTexture(256, 256, 24);
-        tex.enableRandomWrite = true;
-        tex.Create();
-
-        shader.SetTexture(kernelHandle, "Result", tex);
-        shader.Dispatch(kernelHandle, 256 / 8, 256 / 8, 1);
     }
 
 }
