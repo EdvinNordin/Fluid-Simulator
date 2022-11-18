@@ -7,23 +7,24 @@ public class Points : MonoBehaviour
 
     List<GameObject> pointObjects;
     public GameObject prefab;
+    public Material waterMaterialRef;
+    public Color defaultColor;
     public int debug;
     Fluid fluid;
     int N = 100;
     int iter = 16;
     Vector3 mousePos, Pos = new Vector3(0,0,0);
-    float density, xPos, yPos;
+    float xPos, yPos;
+    float density = 500;
     float fadeAmount = 0.0f;
     float prevX, prevY, randX, randY, temp = 0f;
     GameObject Triangle;
-
-
     // Start is called before the first frame update
     void Start()
     {
         Camera.main.orthographicSize = N/2;
         Camera.main.transform.position = new Vector3(0, -0.5f, -10);
-        
+
         pointObjects = new List<GameObject>();
 
         //dt, diffusion (mixing), viscosity
@@ -80,7 +81,7 @@ public class Points : MonoBehaviour
                 Pos = pointObjects[j + i * N].transform.position;
                 pointObjects[j + i * N].transform.position = new Vector3(Pos.x, Pos.y, -density);
                 //density = fluid.fadeDensity(j + i * N, fadeAmount);
-                color = new Color(density, density, density);
+                color = new Color(density, density, density) * waterMaterialRef.color + defaultColor;
                 pointObjects[j + i * N].GetComponent<SpriteRenderer>().material.color = color;
             }
         }
