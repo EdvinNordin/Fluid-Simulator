@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: e08dfd51e0ef0b04999cfdb0049ec946
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - computeShader: {fileID: 7200000, guid: c67876b2c7a5a7947aebaa572dc06a43, type: 3}
+  - NState: {instanceID: 0}
+  - Nm1State: {instanceID: 0}
+  - Np1State: {instanceID: 0}
+  - waveMat: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

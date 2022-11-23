@@ -1,0 +1,31 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel LinearSolver
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+StructuredBuffer<float4> NState;
+StructuredBuffer<float4> tempBuffer;
+RWStructuredBuffer<float4> results;
+int2 resolution;
+float3 effect;
+float dispersion;
+[numthreads(8, 8, 1)]
+void LinearSolver(uint3 id : SV_DispatchThreadID)
+{
+    float coord = id.xy;
+
+    float left = NState[id2Dto1D(coord + uint2(1, 0))].x;
+    float right = NState[id2Dto1D(coord + uint2(0, 1))].x;
+    float bottom = NState[id2Dto1D(coord - uint2(1, 0))].x;
+    float top = NState[id2Dto1D(coord - uint2(0, 1))].x;
+    float center = tempBuffer[id2Dto1D(coordinate)];
+
+    float centerFactor = 1.0f / (Viscosity * time_step);
+    float reciprocal_of_diagonal = (Viscosity * time_step) / (1.0f + 4.0f * (Viscosity * time_step));
+   
+    results[id2Dto1D(coordinate)] = left + right + bottom + top + (_centerFactor * center))* _rDiagonal;
+}
+
+int id2Dto1D(int2 m_coord) {
+    return clamp(m_coord.x, 0, i_Resolution - 1) + clamp(m_coord.y, 0, i_Resolution - 1) * i_Resolution;
+}

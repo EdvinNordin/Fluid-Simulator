@@ -1,0 +1,31 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel Projection
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWStructuredBuffer<float4> _pressure_gradient;
+RWStructuredBuffer<float4> _divergence_free_field;
+StructuredBuffer<float4>    _non_zero_divergence_velocity_field; // This is the velocity field which we have calculated after advection, diffusion and adding external forces
+
+[numthreads(8,8,1)]
+void Projection(uint3 id : SV_DispatchThreadID)
+{
+    //The gradient is defined as
+    //the change of the vector field value in x and y direction.
+	int2 coord = id.xy;
+    float left = scalar_field[id2Dto1D(coord - int2(1, 0))].x;
+    float right = scalar_field[id2Dto1D(coord + int2(1, 0))].x;
+    float bottom = scalar_field[id2Dto1D(coord - int2(0, 1))].x;
+    float top = scalar_field[id2Dto1D(coord + int2(0, 1))].x;
+
+    float4 gradient = (right - left, top - bottom, 0.0, 0.0) / 2.0;
+
+    _pressure_gradient[id2Dto1D(coord)] = gradient; // For debug and visualisation porpuses
+
+    _divergence_free_field[id2Dto1D(coord)] =
+        _non_zero_divergence_velocity_field[id2Dto1D(coord)] - gradient; //make it incrompessible
+}
+
+int id2Dto1D(int2 m_coord) {
+    return clamp(m_coord.x, 0, i_Resolution - 1) + clamp(m_coord.y, 0, i_Resolution - 1) * i_Resolution;
+}

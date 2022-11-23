@@ -1,0 +1,18 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel Advection
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWTexture2D<float4> Result;
+StructuredBuffer<float4> _velocity_field_buffer;
+int N = 100;
+float timeStep = 0.1f;
+[numthreads(8,8,1)]
+void Advection(uint3 id : SV_DispatchThreadID)
+{
+	float2  coord = id.xy;
+	float2 advection_source_coord = coord - (timeStep * // distance = velocity * time, this is the time part 
+		_velocity_field_buffer[id2Dto1D(coord)]);  // This is the velocity part
+	
+	advection_source_coord = clamp(advection_source_coord, 0.0, N - 1.0); //??
+}
