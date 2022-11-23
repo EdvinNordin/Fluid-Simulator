@@ -420,6 +420,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: pool
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 48b8c6c2fb63d594b91b801af53848ad, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48b8c6c2fb63d594b91b801af53848ad, type: 3}
 --- !u!1001 &1711414888
@@ -483,6 +487,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4454851834028089765, guid: 3d17700d04fee6c42b2bbcd5c0b14926, type: 3}
       propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454851834028089765, guid: 3d17700d04fee6c42b2bbcd5c0b14926, type: 3}
+      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4454851834028089765, guid: 3d17700d04fee6c42b2bbcd5c0b14926, type: 3}

@@ -117,7 +117,7 @@ public class Fluid
     public void diffuse (int b, float[] x, float[] x0, float diff, float dt, int iter, int N)
     {
         float a = dt * diff * (N - 2) * (N - 2);
-        lin_solve(b, x, x0, a, 1 + 6 * a, iter, N);
+        lin_solve(b, x, x0, a, 1 + 4 * a, iter, N);
     }
 
     //linear solve
@@ -158,7 +158,7 @@ public class Fluid
 
         set_bnd(0, div, N);
         set_bnd(0, p, N);
-        lin_solve(0, p, div, 1, 6, iter, N);
+        lin_solve(0, p, div, 1, 4, iter, N);
 
         for (int j = 1; j < N - 1; j++)
         {
