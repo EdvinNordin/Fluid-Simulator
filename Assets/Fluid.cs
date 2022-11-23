@@ -70,16 +70,6 @@ public class Fluid
         float[] density = this.density;
 
         
-
-        
-
-        //mixing and spreading out. 0: not att edge
-        diffuse(0, s, density, diff, dt, iter, N);
-
-        //moves dye from velocity. 0: not att edge
-        advect(0, density, s, Vx, Vy, dt, N);
-        //sets the boxes to equilibrium, has to be incompressible
-        project(Vx, Vy, Vx0, Vy0, iter, N);
         //mixing and spreading out. 1: left and right edge, 2: top and bottom edge
         diffuse(1, Vx0, Vx, visc, dt, iter, N);
         diffuse(2, Vy0, Vy, visc, dt, iter, N);
@@ -90,6 +80,17 @@ public class Fluid
         //moves dye from velocity. 1: left and right edge, 2: top and bottom edge
         advect(1, Vx, Vx0, Vx0, Vy0, dt, N);
         advect(2, Vy, Vy0, Vx0, Vy0, dt, N);
+
+        //sets the boxes to equilibrium, has to be incompressible
+        project(Vx, Vy, Vx0, Vy0, iter, N);
+
+        //mixing and spreading out. 0: not att edge
+        diffuse(0, s, density, diff, dt, iter, N);
+
+        //moves dye from velocity. 0: not att edge
+        advect(0, density, s, Vx, Vy, dt, N);
+
+
     }
 
     public int IX(int x, int y, int N)
