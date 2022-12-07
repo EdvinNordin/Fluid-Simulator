@@ -16,7 +16,7 @@ Shader "FluidSim/SubtractGradient"
 			uniform sampler2D _Pressure;
 			uniform sampler2D _Obstacles;
 			uniform float _GradientScale;
-			uniform float2 _InverseSize;
+			uniform float2 _GridResolution;
 			
 			struct v2f 
 			{
@@ -36,17 +36,17 @@ Shader "FluidSim/SubtractGradient"
 			{
 			
 			    // Find neighboring pressure:
-			    float pN = tex2D(_Pressure, i.uv + float2(0, _InverseSize.y)).x;
-			    float pS = tex2D(_Pressure, i.uv + float2(0, -_InverseSize.y)).x;
-			    float pE = tex2D(_Pressure, i.uv + float2(_InverseSize.x, 0)).x;
-			    float pW = tex2D(_Pressure, i.uv + float2(-_InverseSize.x, 0)).x;
+			    float pN = tex2D(_Pressure, i.uv + float2(0, _GridResolution.y)).x;
+			    float pS = tex2D(_Pressure, i.uv + float2(0, -_GridResolution.y)).x;
+			    float pE = tex2D(_Pressure, i.uv + float2(_GridResolution.x, 0)).x;
+			    float pW = tex2D(_Pressure, i.uv + float2(-_GridResolution.x, 0)).x;
 			    float pC = tex2D(_Pressure, i.uv).x;
 			
 			    // Find neighboring obstacles:
-			    float bN = tex2D(_Obstacles, i.uv + float2(0, _InverseSize.y)).x;
-			    float bS = tex2D(_Obstacles, i.uv + float2(0, -_InverseSize.y)).x;
-			    float bE = tex2D(_Obstacles, i.uv + float2(_InverseSize.x, 0)).x;
-			    float bW = tex2D(_Obstacles, i.uv + float2(-_InverseSize.x, 0)).x;
+			    float bN = tex2D(_Obstacles, i.uv + float2(0, _GridResolution.y)).x;
+			    float bS = tex2D(_Obstacles, i.uv + float2(0, -_GridResolution.y)).x;
+			    float bE = tex2D(_Obstacles, i.uv + float2(_GridResolution.x, 0)).x;
+			    float bW = tex2D(_Obstacles, i.uv + float2(-_GridResolution.x, 0)).x;
 			
 			    // Use center pressure for solid cells:
 			    if(bN > 0.0) pN = pC;

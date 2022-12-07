@@ -5,7 +5,6 @@ Shader "FluidSim/ExternalForce"
     	Pass 
     	{
 			ZTest Always
-			//Blend SrcAlpha OneMinusSrcAlpha 
 
 			CGPROGRAM
 			#include "UnityCG.cginc"
@@ -34,19 +33,19 @@ Shader "FluidSim/ExternalForce"
 			
 			float4 frag(v2f i) : COLOR
 			{
+				//distance between uv coordinate and mouse position
 			    float d = distance(_Point, i.uv);
-			    
-				float impulse = 0;
-			    
+				float force = 0;
+
 			    if(d < _Radius) 
 			    {
 			        float a = (_Radius - d) * 0.5;
-					impulse = min(a, 1.0);
+					force = min(a, 1.0);
 			    } 
-
+				//set the source position of the force
 				float source = tex2D(_Source, i.uv).x;
-			  
-			  	return max(0, lerp(source, _Fill, impulse)).xxxx;
+				//get positive linear interpolation with force as value
+			  	return max(0, lerp(source, _Fill, force)).x;
 			}
 			
 			ENDCG

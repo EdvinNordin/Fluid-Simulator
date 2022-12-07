@@ -12,7 +12,7 @@ Shader "FluidSim/Boundaries"
 			#pragma vertex vert
 			#pragma fragment frag
 			
-			uniform float2 _InverseSize;
+			uniform float2 _GridResolution;
 		
 			struct v2f 
 			{
@@ -33,10 +33,10 @@ Shader "FluidSim/Boundaries"
 				float4 result = float4(0,0,0,0);
 				
 				//draw border 
-				if(i.uv.x <= _InverseSize.x) result = float4(1,1,1,1);
-				if(i.uv.x >= 1.0-_InverseSize.x) result = float4(1,1,1,1);
-				if(i.uv.y <= _InverseSize.y) result = float4(1,1,1,1);
-				if(i.uv.y >= 1.0-_InverseSize.y) result = float4(1,1,1,1);
+				if(i.uv.x <= _GridResolution.x) result = float4(1,1,1,1);
+				if(i.uv.x >= 1.0 - _GridResolution.x) result = float4(1,1,1,1);
+				if(i.uv.y <= _GridResolution.y) result = float4(1,1,1,1);
+				if(i.uv.y >= 1.0 - _GridResolution.y) result = float4(1,1,1,1);
 			
 				return result;
 			}

@@ -16,7 +16,7 @@ Shader "FluidSim/Advect"
 			uniform sampler2D _Source;
 			uniform sampler2D _Obstacles;
 			
-			uniform float2 _InverseSize;
+			uniform float2 _GridResolution;
 			uniform float _TimeStep;
 			uniform float _Dissipation;
 		
@@ -29,7 +29,7 @@ Shader "FluidSim/Advect"
 			v2f vert(appdata_base v)
 			{
     			v2f o;
-    			o.pos = UnityObjectToClipPos(v.vertex); //Transforms a point from object space to the camera’s clip space in homogeneous coordinates.
+    			o.pos = UnityObjectToClipPos(v.vertex);
     			o.uv = v.texcoord.xy;
     			return o;
 			}
@@ -37,7 +37,7 @@ Shader "FluidSim/Advect"
 			float4 frag(v2f i) : COLOR
 			{			
 			    float2 u = tex2D(_Velocity, i.uv).xy;
-			    float2 coord = i.uv - (u * _InverseSize * _TimeStep);			   
+			    float2 coord = i.uv - (u * _GridResolution * _TimeStep);
 			    float4 result = _Dissipation * tex2D(_Source, coord);			    
 			    float solid = tex2D(_Obstacles, i.uv).x;
 			    
