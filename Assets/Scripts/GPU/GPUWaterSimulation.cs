@@ -25,7 +25,7 @@ namespace FluidSim2DProject
         float dye_dissipation = 0.99f;
         float velocity_dissipation = 0.99f;
         float density_dissipation = 0.9999f;
-        float prevX, prevY, xPos, yPos;
+        float xPos, yPos;
         float cellSize = 1.0f;
         float gradientScale = 1.0f;
 
@@ -122,6 +122,15 @@ namespace FluidSim2DProject
 
             Graphics.Blit(null, dest, externalforce_mat);
         }
+        void MoveForce(RenderTexture source, RenderTexture dest, Vector2 mousepos, float radius, float val)
+        {
+            externalforce_mat.SetVector("_Point", mousepos);
+            externalforce_mat.SetFloat("_Radius", radius);
+            externalforce_mat.SetFloat("_Fill", val);
+            externalforce_mat.SetTexture("_Source", source);
+
+            Graphics.Blit(null, dest, externalforce_mat);
+        }
         //divergence of velocityfield
         void ComputeDivergence(RenderTexture velocity, RenderTexture dest)
         {
@@ -199,8 +208,7 @@ namespace FluidSim2DProject
 
             /*********************************** Force part**************************************************/
             //If left click down add dye
-            if (Input.GetMouseButton(0))
-            {
+            
                 Vector2 pos = Input.mousePosition;
 
                 pos.x -= canvas.xMin;
@@ -210,12 +218,21 @@ namespace FluidSim2DProject
                 pos.y /= canvas.height;
                 xPos = pos.x;
                 yPos = pos.y;
-                float force = (yPos - prevY)*10 + (xPos - prevX)*10;
-                ApplyForce(dye_force_texture[READ], dye_force_texture[WRITE], pos, mouse_force_radius, dye_force);
+                
+
+            if (Input.GetMouseButton(0))
+            {
+                ApplyForce(dye_force_texture[READ], dye_force_texture[WRITE], pos, mouse_force_radius, 1);
                 ApplyForce(density_texture[READ], density_texture[WRITE], pos, mouse_force_radius, force_density);
                 Swap(dye_force_texture);
                 Swap(density_texture);
-            }
+            };
+            if (Input.GetMouseButton(1))
+            {
+                MoveForce(velocity_texture[READ], velocity_texture[WRITE], pos, mouse_force_radius, 0);
+                Swap(velocity_texture);
+
+            };
             /******************************* Projection part **************************************/
             /* the projection step is divided into two operations: solving the Poisson-pressure equation for p,
              * and subtracting the gradient of p from the intermediate velocity field. 
@@ -240,8 +257,6 @@ namespace FluidSim2DProject
             //Render the tex you want to see into gui tex. Will only use the red channel
             waterSurface_mat.SetTexture("_Obstacles", boundaries_texture);
             Graphics.Blit(density_texture[READ], surface_texture, waterSurface_mat);
-            prevX = xPos;
-            prevY = yPos;
         }
     }
 
