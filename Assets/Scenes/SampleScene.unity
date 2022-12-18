@@ -238,8 +238,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 1758409483}
   waterMaterialRef: {fileID: 2100000, guid: e1f20ff1ec37bbf4a81b3009d17b63e7, type: 2}
-  defaultColor: {r: 0.6650944, g: 0.97549474, b: 1, a: 0}
-  debug: 0
+  debug: 1
+  N: 50
+  iter: 16
+  dt: 0.1
+  diffusion: 0
+  viscosity: 0
 --- !u!4 &601223891
 Transform:
   m_ObjectHideFlags: 0
@@ -422,7 +426,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 48b8c6c2fb63d594b91b801af53848ad, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48b8c6c2fb63d594b91b801af53848ad, type: 3}
@@ -477,6 +481,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7482667652216324306, guid: 06cf485562618934480e886ea89b86ac, type: 3}
+    - target: {fileID: 4454851834028089765, guid: 3d17700d04fee6c42b2bbcd5c0b14926, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4454851834028089765, guid: 3d17700d04fee6c42b2bbcd5c0b14926, type: 3}
       propertyPath: m_Color.b
       value: 1
